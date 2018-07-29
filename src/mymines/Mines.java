@@ -94,13 +94,17 @@ public class Mines {
 	}
 	
 	public void printMines() {
-		System.out.print("       Columns\n       ");
-		for (int k = 0; k < SIZE - 1; k++) {
-			System.out.print("-");
+		System.out.print("       Columns");
+		
+		for (int q = 0; q < 3; q++) {
+		System.out.print("\n       ");
+			for (int k = 0; k < SIZE; k++) {
+				System.out.print(q == 0 ? k : q == 1 ? "|" : "v");
+			}	
 		}
-		System.out.print(">\nRows\n");
+		System.out.print("\nRows\n");
 		for (int i = 0; i < SIZE; i++) {
-			String space = i < SIZE - 1 ? " |     " : " v     ";
+			String space = i + " ->   ";
 			System.out.print(space);
 			for (int a = 0; a < SIZE; a++) {
 				boolean b = visible[i][a];
@@ -147,8 +151,9 @@ public class Mines {
 				int col = Integer.parseInt(console.nextLine());
 				m.reveal(row, col);
 				m.printMines();
-				if (m.isWon() || m.isOver) {
-					System.out.println("Game is Over");
+				boolean won = m.isWon();
+				if (won || m.isOver) {
+					System.out.println(won ? "You won!" : "You lost.");
 					command = "quit";
 				}
 			}
@@ -159,18 +164,19 @@ public class Mines {
 				int col = Integer.parseInt(console.nextLine());
 				m.mark(row, col);
 				m.printMines();
-				if (m.isWon() || m.isOver) {
-					System.out.println("Game is Over");
+				boolean won = m.isWon();
+				if (won || m.isOver) {
+					System.out.println(won ? "You won!" : "You lost.");
 					command = "quit";
 				}
 
 			}
-			else if (command.equals("quit")) {
-				System.out.println("Game quit.\n");
-			}
 			else {
-				System.out.print("Unrecognized command.\n");
+				if (!command.equals("quit")) {
+					System.out.print("Unrecognized command.\n");
+				}
 			}
 		}
+		System.out.println("Game is Over");
 	}
 }
