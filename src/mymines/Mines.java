@@ -4,14 +4,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Mines {
-	public final int SIZE = 5;
+	public final int SIZE = 6;
 	String[][] mines = new String[SIZE][SIZE];
 	boolean[][] visible = new boolean[SIZE][SIZE];
 	boolean[][] marked = new boolean[SIZE][SIZE];
 	boolean isOver = false;
 	
 	public Mines() {
-		String[] choices = {" ", " ", " ", " ", " ", " ", " ", " ", " ", "*"};
+		String[] choices = {" ", " ", " ", " ", " ", " ", " ", "*"};
 		Random r = new Random();
 		for (String[] array : mines) {
 			for (int i = 0; i < array.length; i++) {
@@ -97,24 +97,52 @@ public class Mines {
 		for (int i = 0; i < SIZE; i++) {
 			for (int a = 0; a < SIZE; a++) {
 				boolean b = visible[i][a];
-				if (b) {System.out.print(mines[i][a]);} else {System.out.print("X");}
+				if (b) {System.out.print(mines[i][a]);} else if (marked[i][a]){System.out.print("F");} else {System.out.print("X");}
 			}
 			System.out.println();
 		}
 	}
 	
+	public boolean isWon() {
+		for (int i = 0; i < SIZE; i++) {
+			for (int a = 0; a < SIZE; a++) {
+				if (marked[i][a]) {
+					if (!isMine(i, a)) {return false;}
+				}
+				if (isMine(i, a)) {
+					if (!marked[i][a]) {return false;}
+				}
+			}
+		}
+		isOver = true;
+		return true;
+	}
+	
 	public static void main(String[] args) {
 		Mines m = new Mines();
+		String command = "";
 		Scanner console = new Scanner(System.in);
-		String command = console.nextLine();
+		if (m.isWon() || m.isOver) {
+			System.out.println("Game is Over");
+			command = "quit";
+		}
+		command = console.nextLine();
 		while (!command.equals("quit")) {
-			if (command.equals("reveal")) {
+			if (m.isWon() || m.isOver) {
+				System.out.println("Game is Over");
+				command = "quit";
+			}
+			else if (command.equals("reveal")) {
 				System.out.print("row?");
 				int row = Integer.parseInt(console.nextLine());
 				System.out.print("col?");
 				int col = Integer.parseInt(console.nextLine());
 				m.reveal(row, col);
 				m.printMines();
+				if (m.isWon() || m.isOver) {
+					System.out.println("Game is Over");
+					command = "quit";
+				}
 				command = console.nextLine();
 			}
 			else if (command.equals("mark")) {
@@ -124,11 +152,16 @@ public class Mines {
 				int col = Integer.parseInt(console.nextLine());
 				m.mark(row, col);
 				m.printMines();
+				if (m.isWon() || m.isOver) {
+					System.out.println("Game is Over");
+					command = "quit";
+				}
 				command = console.nextLine();
 			}
 			else {
 				command = console.nextLine();
 			}
+
 		}
 	}
 }
