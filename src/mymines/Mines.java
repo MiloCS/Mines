@@ -165,6 +165,9 @@ public class Mines {
 				}
 
 			}
+			else if (command.equals("quit")) {
+				System.out.println("Game quit.\n");
+			}
 			else {
 				System.out.print("Unrecognized command.\n");
 			}
