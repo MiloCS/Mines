@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Mines {
-	public final int SIZE = 5;
+	public static int SIZE;
 	String[][] mines = new String[SIZE][SIZE];
 	boolean[][] visible = new boolean[SIZE][SIZE];
 	boolean[][] marked = new boolean[SIZE][SIZE];
@@ -94,41 +94,53 @@ public class Mines {
 	}
 	
 	public void printMines() {
+		System.out.print("       Columns\n       ");
+		for (int k = 0; k < SIZE - 1; k++) {
+			System.out.print("-");
+		}
+		System.out.print(">\nRows\n");
 		for (int i = 0; i < SIZE; i++) {
+			String space = i < SIZE - 1 ? " |     " : " v     ";
+			System.out.print(space);
 			for (int a = 0; a < SIZE; a++) {
 				boolean b = visible[i][a];
 				if (b) {System.out.print(mines[i][a]);} else {System.out.print("X");}
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	
 	public static void main(String[] args) {
-		Mines m = new Mines();
 		Scanner console = new Scanner(System.in);
+		System.out.print("**MINESWEEPER**\n\nPlease select size of square board (greater than 0):\n>>> ");
+		SIZE = Integer.parseInt(console.nextLine());
+		Mines m = new Mines();
+		m.printMines();
+		System.out.print("Options: reveal mark quit\n>>> ");
 		String command = console.nextLine();
 		while (!command.equals("quit")) {
 			if (command.equals("reveal")) {
-				System.out.print("row?");
+				System.out.print("Specify location to reveal with row and column (0 indexed):\nRow?\n>>> ");
 				int row = Integer.parseInt(console.nextLine());
-				System.out.print("col?");
+				System.out.print("Column?\n>>> ");
 				int col = Integer.parseInt(console.nextLine());
 				m.reveal(row, col);
 				m.printMines();
-				command = console.nextLine();
 			}
 			else if (command.equals("mark")) {
-				System.out.print("row?");
+				System.out.print("Specify location to mark as bomb with row and column (0 indexed):\nRow?\n>>> ");
 				int row = Integer.parseInt(console.nextLine());
-				System.out.print("col?");
+				System.out.print("Column?\n>>>");
 				int col = Integer.parseInt(console.nextLine());
 				m.mark(row, col);
 				m.printMines();
-				command = console.nextLine();
 			}
 			else {
-				command = console.nextLine();
+				System.out.print("Unrecognized command.\n");
 			}
+			System.out.print("Options: reveal mark quit\n>>> ");
+			command = console.nextLine();
 		}
 	}
 }
