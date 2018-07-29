@@ -1,2 +1,3 @@
 # Minesweeper
-Collaboration on text based minesweeper. Potential things to include are \nGUI support, and algorithms to solve minesweeper.
+Collaboration on text based minesweeper. Potential things to include are
+GUI support, and algorithms to actually solve minesweeper.
