@@ -22,7 +22,7 @@ public class Mines {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < mines[0].length; j++) {
 				if (!isMine(i, j)) {
-					mines[i][j] = numPeers(i, j) == 0 ? "" : numPeers(i, j) + "";
+					mines[i][j] = numPeers(i, j) == 0 ? "0" : numPeers(i, j) + "";
 				}
 			}
 		}
@@ -49,7 +49,7 @@ public class Mines {
 				return "Game Over. :(";
 			}
 			else if (mines[r][c].equals("0")) {
-				revealZero(r, c);
+				revealZero(r, c, new boolean[SIZE][SIZE]);
 				return "Successful reveal!";
 			}
 			else {
@@ -62,12 +62,17 @@ public class Mines {
 		}
 	}
 	
-	private void revealZero(int r, int c) {
-		visible[r][c] = true;
-		reveal(r+1, c);
-		reveal(r-1, c);
-		reveal(r, c+1);
-		reveal(r, c-1);
+	private void revealZero(int r, int c, boolean[][] seen) {
+		if ((r >= 0 && r < SIZE && c >= 0 && c < SIZE) && !seen[r][c]) {
+			seen[r][c] = true;
+			visible[r][c] = true;
+			if (mines[r][c].equals("0")) {
+				revealZero(r+1, c, seen);
+				revealZero(r-1, c, seen);
+				revealZero(r, c+1, seen);
+				revealZero(r, c-1, seen);
+			}
+		}
 	}
 	
 	public String mark(int r, int c) {
