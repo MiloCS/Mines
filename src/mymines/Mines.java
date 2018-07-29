@@ -137,7 +137,7 @@ public class Mines {
 		Mines m = new Mines();
 		m.printMines();
 		if (m.isWon() || m.isOver) {
-			System.out.println("Game is Over");
+			System.out.println(m.isWon() ? "You won!" : "You lost.");
 			return;
 		}
 		String command = "";
