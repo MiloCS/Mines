@@ -4,13 +4,18 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Mines {
-	public static int SIZE;
-	String[][] mines = new String[SIZE][SIZE];
-	boolean[][] visible = new boolean[SIZE][SIZE];
-	boolean[][] marked = new boolean[SIZE][SIZE];
-	boolean isOver = false;
+	public int SIZE;
+	public String[][] mines;
+	boolean[][] visible;
+	boolean[][] marked;
+	boolean isOver;
 	
 	public Mines() {
+		SIZE = 10;
+		mines = new String[SIZE][SIZE];
+		visible = new boolean[SIZE][SIZE];
+		marked = new boolean[SIZE][SIZE];
+		isOver = false;
 		String[] choices = {" ", " ", " ", " ", " ", " ", " ", "*"};
 		Random r = new Random();
 		for (String[] array : mines) {
@@ -133,8 +138,8 @@ public class Mines {
 	public static void main(String[] args) {
 		Scanner console = new Scanner(System.in);
 		System.out.print("**MINESWEEPER**\n\nPlease select size of square board (greater than 0):\n>>> ");
-		SIZE = Integer.parseInt(console.nextLine());
 		Mines m = new Mines();
+		m.SIZE = Integer.parseInt(console.nextLine());
 		m.printMines();
 		if (m.isWon() || m.isOver) {
 			System.out.println(m.isWon() ? "You won!" : "You lost.");
