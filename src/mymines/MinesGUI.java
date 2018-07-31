@@ -63,7 +63,7 @@ public class MinesGUI implements ActionListener {
 				buttonArray[i][j].setText(ref.visible[i][j] ? ref.mines[i][j] : (ref.marked[i][j] ? "F" : " "));
 			}
 		}
-		if (ref.isOver) {
+		if (ref.isOver || ref.isWon()) {
 			if (ref.isWon()) {
 				switchtext = "You Won!";
 			}
